@@ -1,7 +1,3 @@
-#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_Outfile_x64=horse_macro.exe
-#AutoIt3Wrapper_Add_Constants=n
-#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #include <AutoItConstants.au3>
 
 ; Assuming 1920x1080 display.
