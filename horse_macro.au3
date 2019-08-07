@@ -92,11 +92,11 @@ Func RecordButtonLocations()
 	; Disable Main hotkey while recording.
 	HotKeySet("!a")
 
-	RecordButtonLocation($mpos_place_bet_0)
-	RecordButtonLocation($mpos_horse)
-	RecordButtonLocation($mpos_place_bet_1)
-	RecordButtonLocation($mpos_inc_bet)
-	RecordButtonLocation($mpos_bet_again)
+	Global $mpos_place_bet_0 = RecordButtonLocation()
+	Global $mpos_horse = RecordButtonLocation()
+	Global $mpos_place_bet_1 = RecordButtonLocation()
+	Global $mpos_inc_bet = RecordButtonLocation()
+	Global $mpos_bet_again = RecordButtonLocation()
 
 	; Show the selected coordinates in a message box.
 	MsgBox($MB_TOPMOST, "Clicked Coordinates", "Clicked: " & _ArrayToString($mpos_place_bet_0) _
@@ -107,11 +107,11 @@ Func RecordButtonLocations()
 	HotKeySet("!a", "Main")
 EndFunc
 
-Func RecordButtonLocation($bpos)
+; Wait for MMB to be pressed and record location.
+Func RecordButtonLocation()
 	While True
 		If _IsPressed(04, $handle_user32) Then
 			Local $mpos = MouseGetPos()
-			$bpos = $mpos
 			Beep(1500, 250)
 			; Wait until key is no longer pressed.
 			While _IsPressed(04, $handle_user32) <> 0
@@ -121,6 +121,7 @@ Func RecordButtonLocation($bpos)
 		Endif
 		Sleep(50);
 	WEnd
+	Return $mpos
 EndFunc
 
 Func Quit()
