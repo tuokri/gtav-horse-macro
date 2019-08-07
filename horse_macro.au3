@@ -30,41 +30,28 @@ While True
 WEnd
 
 Func Main()
-	HotKeySet("!a") ; Disable hotkey once in Main function.
-
-	Local $random_click_sleep
-	Local $random_sleep
-	Local $random_variance
-	Local $random_hold_click
-	Local $m_pb_0_x
-	Local $m_pb_0_y
-	Local $m_pb_1_x
-	Local $m_pb_1_y
-	Local $m_horse_x
-	Local $m_horse_y
-	Local $m_inc_b_x
-	Local $m_inc_b_y
-	Local $m_bet_again_x
-	Local $m_bet_again_y
+	; Disable hotkeys once in Main function.
+	HotKeySet("!a")
+	HotKeySet("!c")
 
 	; Loop until Quit() is called (alt + b).
 	While True
 		; Randomize coordinate variation and delays per every loop.
-		$random_click_sleep = Random(35, 45, 1)
-		$random_sleep = Random(15, 35, 1)
-		$random_variance = Random(-2, 2, 1)
-		$random_hold_click = Random($t_hold_click_min, $t_hold_click_max, 1)
+		Local $random_click_sleep = Random(35, 45, 1)
+		Local $random_sleep = Random(15, 35, 1)
+		Local $random_variance = Random(-2, 2, 1)
+		Local $random_hold_click = Random($t_hold_click_min, $t_hold_click_max, 1)
 
-		$m_pb_0_x = $mpos_place_bet_0[0] + $random_variance
-		$m_pb_0_y = $mpos_place_bet_0[1] + $random_variance
-		$m_pb_1_x = $mpos_place_bet_1[0] + $random_variance
-		$m_pb_1_y = $mpos_place_bet_1[1] + $random_variance
-		$m_horse_x = $mpos_horse[0] + $random_variance
-		$m_horse_y = $mpos_horse[1] + $random_variance
-		$m_inc_b_x = $mpos_inc_bet[0] + $random_variance
-		$m_inc_b_y = $mpos_inc_bet[1] + $random_variance
-		$m_bet_again_x = $mpos_bet_again[0] + $random_variance
-		$m_bet_again_y = $mpos_bet_again[1] + $random_variance
+		Local $m_pb_0_x = $mpos_place_bet_0[0] + $random_variance
+		Local $m_pb_0_y = $mpos_place_bet_0[1] + $random_variance
+		Local $m_pb_1_x = $mpos_place_bet_1[0] + $random_variance
+		Local $m_pb_1_y = $mpos_place_bet_1[1] + $random_variance
+		Local $m_horse_x = $mpos_horse[0] + $random_variance
+		Local $m_horse_y = $mpos_horse[1] + $random_variance
+		Local $m_inc_b_x = $mpos_inc_bet[0] + $random_variance
+		Local $m_inc_b_y = $mpos_inc_bet[1] + $random_variance
+		Local $m_bet_again_x = $mpos_bet_again[0] + $random_variance
+		Local $m_bet_again_y = $mpos_bet_again[1] + $random_variance
 
 		; Place bet button #1.
 		MouseMove($m_pb_0_x, $m_pb_0_y)
@@ -107,74 +94,32 @@ EndFunc
 
 ; Record button locations.
 Func RecordButtonLocations()
-	; Place bet button #1.
-	While True
-		If _IsPressed(04, $handle_user32) Then
-			Local $pos = MouseGetPos()
-			$mpos_place_bet_0 = $pos
-			While _IsPressed(04, $handle_user32) <> 0
-				Sleep(50)
-			WEnd
-			ExitLoop
-		Endif
-		Sleep(50);
-	WEnd
-
-	; Choose horse button.
-	While True
-		If _IsPressed(04, $handle_user32) Then
-			Local $pos = MouseGetPos()
-			$mpos_horse = $pos
-			While _IsPressed(04, $handle_user32) <> 0
-				Sleep(50)
-			WEnd
-			ExitLoop
-		Endif
-		Sleep(50);
-	WEnd
-
-	; Place bet button #2.
-	While True
-		If _IsPressed(04, $handle_user32) Then
-			Local $pos = MouseGetPos()
-			$mpos_place_bet_1 = $pos
-			While _IsPressed(04, $handle_user32) <> 0
-				Sleep(50)
-			WEnd
-			ExitLoop
-		Endif
-		Sleep(50);
-	WEnd
-
-	; Increase bet arrow button.
-	While True
-		If _IsPressed(04, $handle_user32) Then
-			Local $pos = MouseGetPos()
-			$mpos_inc_bet = $pos
-			While _IsPressed(04, $handle_user32) <> 0
-				Sleep(50)
-			WEnd
-			ExitLoop
-		Endif
-		Sleep(50);
-	WEnd
-
-	; Bet again button.
-	While True
-		If _IsPressed(04, $handle_user32) Then
-			Local $pos = MouseGetPos()
-			$mpos_bet_again = $pos
-			While _IsPressed(04, $handle_user32) <> 0
-				Sleep(50)
-			WEnd
-			ExitLoop
-		Endif
-		Sleep(50);
-	WEnd
+	RecordButtonLocation($mpos_place_bet_0)
+	RecordButtonLocation($mpos_horse)
+	RecordButtonLocation($mpos_place_bet_1)
+	RecordButtonLocation($mpos_inc_bet)
+	RecordButtonLocation($mpos_bet_again)
 
 	; Show the selected coordinates in a message box.
-	MsgBox($MB_TOPMOST, "Clicked Coordinates", "Clicked: " & _ArrayToString($mpos_place_bet_0) & ", " & _ArrayToString($mpos_horse) _
-	       & ", " & _ArrayToString($mpos_place_bet_1) & ", " & _ArrayToString($mpos_inc_bet) & ", " & _ArrayToString($mpos_bet_again))
+	MsgBox($MB_TOPMOST, "Clicked Coordinates", "Clicked: " & _ArrayToString($mpos_place_bet_0) _
+           & ", " & _ArrayToString($mpos_horse) & ", " & _ArrayToString($mpos_place_bet_1) _
+		   & ", " & _ArrayToString($mpos_inc_bet) & ", " & _ArrayToString($mpos_bet_again))
+EndFunc
+
+Func RecordButtonLocation($bpos)
+	While True
+		If _IsPressed(04, $handle_user32) Then
+			Local $mpos = MouseGetPos()
+			$bpos = $mpos
+			Beep()
+			; Wait until key is no longer pressed.
+			While _IsPressed(04, $handle_user32) <> 0
+				Sleep(50)
+			WEnd
+			ExitLoop
+		Endif
+		Sleep(50);
+	WEnd
 EndFunc
 
 Func Quit()
