@@ -55,45 +55,43 @@ Func Main()
 
 		; Place bet button #1.
 		MouseMove($m_pb_0_x, $m_pb_0_y)
-		MouseDown($MOUSE_CLICK_PRIMARY)
-		Sleep($random_click_sleep)
-		MouseUp($MOUSE_CLICK_PRIMARY)
+		DelayClick($random_click_sleep)
 		Sleep($random_sleep * 2)
 
 		; Choose horse button.
 		MouseMove($m_horse_x, $m_horse_y)
-		MouseDown($MOUSE_CLICK_PRIMARY)
-		Sleep($random_click_sleep)
-		MouseUp($MOUSE_CLICK_PRIMARY)
-		Sleep($random_sleep * 2)
-
-		; Place bet button #2.
-		MouseMove($m_pb_1_x, $m_pb_1_y)
-		MouseDown($MOUSE_CLICK_PRIMARY)
-		Sleep($random_click_sleep)
-		MouseUp($MOUSE_CLICK_PRIMARY)
+		DelayClick($random_click_sleep)
 		Sleep($random_sleep * 2)
 
 		; Increase bet arrow button.
-		MouseMove($m_inc_b_x, $m_inc_b_y, 3)
+		MouseMove($m_inc_b_x, $m_inc_b_y)
 		Sleep($random_sleep)
 		MouseDown($MOUSE_CLICK_PRIMARY)
+
+		; Place bet button #2.
+		MouseMove($m_pb_1_x, $m_pb_1_y, 3)
 		Sleep($random_hold_click)
 		MouseUp($MOUSE_CLICK_PRIMARY)
 		Sleep($t_race - $random_hold_click)
-		Sleep($random_sleep * 5)
 
 		; Bet again button.
 		MouseMove($m_bet_again_x, $m_bet_again_y)
-		MouseDown($MOUSE_CLICK_PRIMARY)
-		Sleep($random_click_sleep)
-		MouseUp($MOUSE_CLICK_PRIMARY)
+		DelayClick($random_click_sleep)
 		Sleep($random_sleep)
 	WEnd
 EndFunc
 
+Func DelayClick($delay)
+	MouseDown($MOUSE_CLICK_PRIMARY)
+	Sleep($delay)
+	MouseUp($MOUSE_CLICK_PRIMARY)
+EndFunc
+
 ; Record button locations.
 Func RecordButtonLocations()
+	; Disable Main hotkey while recording.
+	HotKeySet("!a")
+
 	RecordButtonLocation($mpos_place_bet_0)
 	RecordButtonLocation($mpos_horse)
 	RecordButtonLocation($mpos_place_bet_1)
@@ -104,6 +102,9 @@ Func RecordButtonLocations()
 	MsgBox($MB_TOPMOST, "Clicked Coordinates", "Clicked: " & _ArrayToString($mpos_place_bet_0) _
            & ", " & _ArrayToString($mpos_horse) & ", " & _ArrayToString($mpos_place_bet_1) _
 		   & ", " & _ArrayToString($mpos_inc_bet) & ", " & _ArrayToString($mpos_bet_again))
+
+	; Re-enable Main hotkey.
+	HotKeySet("!a", "Main")
 EndFunc
 
 Func RecordButtonLocation($bpos)
@@ -111,7 +112,7 @@ Func RecordButtonLocation($bpos)
 		If _IsPressed(04, $handle_user32) Then
 			Local $mpos = MouseGetPos()
 			$bpos = $mpos
-			Beep()
+			Beep(1500, 250)
 			; Wait until key is no longer pressed.
 			While _IsPressed(04, $handle_user32) <> 0
 				Sleep(50)
