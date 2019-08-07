@@ -94,8 +94,8 @@ Func RecordButtonLocations()
 
 	Global $mpos_place_bet_0 = RecordButtonLocation()
 	Global $mpos_horse = RecordButtonLocation()
-	Global $mpos_place_bet_1 = RecordButtonLocation()
 	Global $mpos_inc_bet = RecordButtonLocation()
+	Global $mpos_place_bet_1 = RecordButtonLocation()
 	Global $mpos_bet_again = RecordButtonLocation()
 
 	; Show the selected coordinates in a message box.
