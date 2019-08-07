@@ -89,8 +89,9 @@ EndFunc
 
 ; Record button locations.
 Func RecordButtonLocations()
-	; Disable Main hotkey while recording.
+	; Disable hotkeys while recording.
 	HotKeySet("!a")
+	HotKeySet("!c")
 
 	Global $mpos_place_bet_0 = RecordButtonLocation()
 	Global $mpos_horse = RecordButtonLocation()
@@ -103,8 +104,9 @@ Func RecordButtonLocations()
            & ", " & _ArrayToString($mpos_horse) & ", " & _ArrayToString($mpos_place_bet_1) _
 		   & ", " & _ArrayToString($mpos_inc_bet) & ", " & _ArrayToString($mpos_bet_again))
 
-	; Re-enable Main hotkey.
+	; Re-enable hotkeys.
 	HotKeySet("!a", "Main")
+	HotKeySet("!c", "RecordButtonLocations")
 EndFunc
 
 ; Wait for MMB to be pressed and record location.
