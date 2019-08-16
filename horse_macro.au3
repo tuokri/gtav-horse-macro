@@ -13,6 +13,8 @@ Global $mpos_bet_again[2] = [1042, 1003] ; Bet again button location.
 
 Global $t_race = 35 * 1000 ; Race duration + safety margin.
 
+Global $t_bet_count = 12 ; Betting stops at 2000 (bet arrow click count)
+
 ; Variable duration of holding left click after clicking the increase bet arrow.
 Global $t_hold_click_min = Int($t_race / 4)
 Global $t_hold_click_max = Int($t_race / 2)
@@ -64,7 +66,17 @@ Func Main()
 		Sleep($random_sleep * 2)
 
 		; Increase bet arrow button.
+		Local $bet_count = 1
+		Local $random_bet_sleep = Random(50, 2500, 1)
 		MouseMove($m_inc_b_x, $m_inc_b_y)
+		While $bet_count < $t_bet_count
+		   Sleep(Random(500, 2000, 1))
+		   MouseDown($MOUSE_CLICK_PRIMARY)
+		   Sleep(100)
+		   MouseUp($MOUSE_CLICK_PRIMARY)
+		   $bet_count = $bet_count + 1
+		   Beep(500, 100)
+		WEnd
 		Sleep($random_sleep)
 		MouseDown($MOUSE_CLICK_PRIMARY)
 
