@@ -75,7 +75,6 @@ Func Main()
 		   Sleep(100)
 		   MouseUp($MOUSE_CLICK_PRIMARY)
 		   $bet_count = $bet_count + 1
-		   Beep(500, 100)
 		WEnd
 		Sleep($random_sleep)
 		MouseDown($MOUSE_CLICK_PRIMARY)
