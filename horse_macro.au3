@@ -70,7 +70,7 @@ Func Main()
 		Local $random_bet_sleep = Random(50, 2500, 1)
 		MouseMove($m_inc_b_x, $m_inc_b_y)
 		While $bet_count < $t_bet_count
-		   Sleep(Random(500, 2000, 1))
+		   Sleep(Random(200, 1000, 1))
 		   MouseDown($MOUSE_CLICK_PRIMARY)
 		   Sleep(100)
 		   MouseUp($MOUSE_CLICK_PRIMARY)
